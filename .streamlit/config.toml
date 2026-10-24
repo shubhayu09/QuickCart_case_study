@@ -1,0 +1,14 @@
+# Streamlit's built-in widget theme. Keep these in sync with ui/theme.py.
+[theme]
+base = "light"
+primaryColor = "#FF385C"
+backgroundColor = "#F7F7F7"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#222222"
+font = "sans serif"
+
+[server]
+headless = true
+
+[browser]
+gatherUsageStats = false

@@ -1,0 +1,45 @@
+/* Customer view styles. Loaded only in the customer view; builds on ui/styles.css tokens (--brand, --ink, ...). */
+
+/* Profile strip */
+.cv-profile { display: flex; align-items: center; gap: 14px; }
+.cv-avatar {
+  width: 48px; height: 48px; border-radius: 999px; background: linear-gradient(135deg, #FF385C, #BD1E59); color: #fff;
+  display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; flex-shrink: 0;
+}
+.cv-name { font-size: 18px; font-weight: 750; color: var(--ink); }
+.cv-meta { font-size: 13px; color: var(--ink-2); }
+
+/* Order cards */
+.cv-order { border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; background: var(--card); }
+.cv-order.active { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-tint); }
+.cv-order .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.cv-order .id { font-weight: 700; color: var(--ink); font-size: 14.5px; }
+.cv-order .meta { color: var(--ink-2); font-size: 13px; margin-top: 4px; }
+.cv-order .ticket { color: var(--ink-muted); font-size: 12px; margin-top: 4px; }
+
+/* Demo customer tiles */
+.cv-demo-hint { color: var(--ink-2); font-size: 13px; margin: -2px 0 8px 0; }
+
+/* Chat bubbles */
+[data-testid="stChatMessage"] {
+  background: var(--canvas); border-radius: 16px; padding: 10px 14px; margin-bottom: 8px; max-width: 92%;
+}
+[data-testid="stChatMessage"]:has(.cv-user) {
+  background: var(--brand-tint); margin-left: auto; flex-direction: row-reverse; width: fit-content;
+}
+[data-testid="stChatMessage"]:has(.cv-user) [data-testid="stChatMessageContent"] { text-align: right; }
+[data-testid="stChatMessage"] p { font-size: 14.5px; line-height: 1.55; margin-bottom: 0.35rem; }
+[data-testid="stChatMessageAvatarCustom"] { background: var(--ink) !important; color: #fff !important; border-radius: 999px; }
+[data-testid="stChatMessage"]:has(.cv-user) [data-testid="stChatMessageAvatarCustom"] { background: var(--brand) !important; }
+[data-testid="stChatMessageAvatarCustom"] [data-testid="stIconMaterial"] { color: #fff !important; }
+
+/* Chat action buttons: primary-looking pills */
+div[class*="st-key-act-"] button {
+  background: var(--ink) !important; color: #fff !important; border-color: var(--ink) !important;
+}
+div[class*="st-key-act-"] button p { color: #fff !important; }
+div[class*="st-key-act-"] button:hover { background: #000 !important; }
+
+/* Chat input */
+[data-testid="stChatInput"] { border-radius: 999px !important; }
+[data-testid="stChatInput"] textarea { font-size: 14.5px; }

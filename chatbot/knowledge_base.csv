@@ -1,0 +1,51 @@
+intent,delivery_status,reply,action,rule_ref
+where_is_order,DELIVERED,"Good news: order {order_id} ({category}) was delivered (ordered on {order_date}). If you can't find it, tell me and I'll raise a missing-parcel check with {courier}.",report_missing,-
+where_is_order,DELAYED_IN_TRANSIT,"Order {order_id} is running late. It's still in transit with {courier}, so please allow up to 48 more hours. To make up for the wait, you can add a ₹100 voucher to your account.",voucher_100,R1
+where_is_order,LOST_IN_TRANSIT,"I'm sorry: order {order_id} was lost in transit by {courier}. You don't need to wait any longer; you're eligible for a full refund of {order_amount}.",refund_full,R1
+where_is_order,RETURNED_TO_SELLER,"Order {order_id} couldn't be delivered and was returned to the seller by {courier}, so it won't reach you. You're eligible for a full refund of {order_amount}.",refund_full,R1
+where_is_order,CANCELLED_BEFORE_SHIP,"Order {order_id} was cancelled before it shipped, so it won't be delivered.",cancel_refund,R3
+not_delivered,DELIVERED,"Our records show order {order_id} was delivered (ordered on {order_date}). If it didn't reach you, I can raise a missing-parcel check with {courier} right away.",report_missing,-
+not_delivered,DELAYED_IN_TRANSIT,"Sorry for the delay. Order {order_id} is still on its way with {courier}. Please allow up to 48 more hours. To make up for the wait, you can add a ₹100 voucher to your account.",voucher_100,R1
+not_delivered,LOST_IN_TRANSIT,"I'm sorry: order {order_id} was lost in transit by {courier} and won't arrive. You're eligible for a full refund of {order_amount}.",refund_full,R1
+not_delivered,RETURNED_TO_SELLER,"Order {order_id} couldn't be delivered and went back to the seller, so it won't arrive. You're eligible for a full refund of {order_amount}.",refund_full,R1
+not_delivered,CANCELLED_BEFORE_SHIP,"Order {order_id} was cancelled before it shipped, so nothing is on the way.",cancel_refund,R3
+damaged_item,DELIVERED,"I'm sorry your {category} item from order {order_id} arrived damaged. You can choose a free replacement or a full refund of {order_amount}, whichever you prefer.",replace_or_refund,R2
+damaged_item,DELAYED_IN_TRANSIT,"Order {order_id} hasn't been delivered yet. It's still in transit with {courier}. If it arrives damaged, message me and I'll arrange a replacement or refund. For the delay, you can add a ₹100 voucher to your account.",voucher_100,R1
+damaged_item,LOST_IN_TRANSIT,"Order {order_id} never reached you because it was lost in transit. Instead of a damage claim, you're eligible for a full refund of {order_amount}.",refund_full,R1
+damaged_item,RETURNED_TO_SELLER,"Order {order_id} was returned to the seller and never reached you. You're eligible for a full refund of {order_amount}.",refund_full,R1
+damaged_item,CANCELLED_BEFORE_SHIP,"Order {order_id} was cancelled before it shipped, so no item was sent to you.",cancel_refund,R3
+refund,DELIVERED,"Order {order_id} was delivered (ordered on {order_date}). Refunds on delivered orders are for items that arrived damaged or defective. Would you like to report a problem with the item?",ask_damage,R2
+refund,DELAYED_IN_TRANSIT,"Order {order_id} is delayed, not lost, so a full refund isn't available yet. Please allow up to 48 more hours for delivery. For the wait, you can add a ₹100 voucher to your account.",voucher_100,R1
+refund,LOST_IN_TRANSIT,"Order {order_id} was lost in transit, so you're eligible for a full refund of {order_amount}.",refund_full,R1
+refund,RETURNED_TO_SELLER,"Order {order_id} was returned to the seller, so you're eligible for a full refund of {order_amount}.",refund_full,R1
+refund,CANCELLED_BEFORE_SHIP,"Order {order_id} was cancelled before it shipped.",cancel_refund,R3
+double_charged,DELIVERED,"Sorry about the extra charge on order {order_id}. I'll flag it to our payments team: they'll verify it with your bank or UPI app and reverse any duplicate charge within 5–7 working days.",escalate_payments,-
+double_charged,DELAYED_IN_TRANSIT,"Sorry about the extra charge on order {order_id}. I'll flag it to our payments team: they'll verify it with your bank or UPI app and reverse any duplicate charge within 5–7 working days.",escalate_payments,-
+double_charged,LOST_IN_TRANSIT,"Sorry about the extra charge on order {order_id}. I'll flag it to our payments team so any duplicate charge is reversed. Separately, as the order was lost in transit, you're eligible for a full refund of {order_amount}.",escalate_payments+refund_full,R1
+double_charged,RETURNED_TO_SELLER,"Sorry about the extra charge on order {order_id}. I'll flag it to our payments team so any duplicate charge is reversed. Separately, as the order was returned to the seller, you're eligible for a full refund of {order_amount}.",escalate_payments+refund_full,R1
+double_charged,CANCELLED_BEFORE_SHIP,"Order {order_id} was cancelled before it shipped. If you still see a charge for it, I'll flag it to our payments team to verify and reverse it within 5–7 working days.",escalate_payments,R3
+return_pickup,DELIVERED,"I can schedule a return pickup for order {order_id}. Once {courier} collects the item, your refund is processed.",schedule_pickup,-
+return_pickup,DELAYED_IN_TRANSIT,"Order {order_id} hasn't been delivered yet, so there's nothing to pick up. Please allow up to 48 more hours. For the wait, you can add a ₹100 voucher to your account.",voucher_100,R1
+return_pickup,LOST_IN_TRANSIT,"No pickup is needed: order {order_id} was lost in transit and never reached you. You're eligible for a full refund of {order_amount}.",refund_full,R1
+return_pickup,RETURNED_TO_SELLER,"No pickup is needed: order {order_id} has already gone back to the seller. You're eligible for a full refund of {order_amount}.",refund_full,R1
+return_pickup,CANCELLED_BEFORE_SHIP,"Order {order_id} was cancelled before it shipped, so there's nothing to return.",cancel_refund,R3
+shipping_fee_coupon,DELIVERED,"The shipping fee on order {order_id} was {shipping_fee}. If a coupon or free-shipping offer didn't apply, I'll send it to our billing team to review.",escalate_billing,-
+shipping_fee_coupon,DELAYED_IN_TRANSIT,"The shipping fee on order {order_id} was {shipping_fee}. If a coupon or free-shipping offer didn't apply, I'll send it to our billing team to review.",escalate_billing,-
+shipping_fee_coupon,LOST_IN_TRANSIT,"The shipping fee on order {order_id} was {shipping_fee}. As the order was lost in transit, you're eligible for a full refund of {order_amount}.",refund_full,R1
+shipping_fee_coupon,RETURNED_TO_SELLER,"The shipping fee on order {order_id} was {shipping_fee}. As the order was returned to the seller, you're eligible for a full refund of {order_amount}.",refund_full,R1
+shipping_fee_coupon,CANCELLED_BEFORE_SHIP,"Order {order_id} was cancelled before it shipped.",cancel_refund,R3
+cancel_order,DELIVERED,"Order {order_id} was already delivered (ordered on {order_date}), so it can't be cancelled. If something's wrong with the item, you can report it as damaged.",ask_damage,-
+cancel_order,DELAYED_IN_TRANSIT,"Order {order_id} has already shipped and is in transit with {courier}, so it can't be cancelled now. Please allow up to 48 more hours. For the wait, you can add a ₹100 voucher to your account.",voucher_100,R1
+cancel_order,LOST_IN_TRANSIT,"There's no need to cancel: order {order_id} was lost in transit. You're eligible for a full refund of {order_amount}.",refund_full,R1
+cancel_order,RETURNED_TO_SELLER,"There's no need to cancel: order {order_id} was returned to the seller. You're eligible for a full refund of {order_amount}.",refund_full,R1
+cancel_order,CANCELLED_BEFORE_SHIP,"Order {order_id} is already cancelled.",cancel_refund,R3
+human_agent,DELIVERED,"Sure. I'll connect you with a support agent about order {order_id}.",escalate_agent,-
+human_agent,DELAYED_IN_TRANSIT,"Sure. I'll connect you with a support agent about order {order_id}.",escalate_agent,-
+human_agent,LOST_IN_TRANSIT,"Sure. I'll connect you with a support agent about order {order_id}.",escalate_agent,-
+human_agent,RETURNED_TO_SELLER,"Sure. I'll connect you with a support agent about order {order_id}.",escalate_agent,-
+human_agent,CANCELLED_BEFORE_SHIP,"Sure. I'll connect you with a support agent about order {order_id}.",escalate_agent,-
+other,DELIVERED,"I can help with order {order_id}: tracking, damaged items, refunds, payments, returns or cancellations. Pick one of the options below or tell me what happened.",none,-
+other,DELAYED_IN_TRANSIT,"I can help with order {order_id}: tracking, damaged items, refunds, payments, returns or cancellations. Pick one of the options below or tell me what happened.",none,-
+other,LOST_IN_TRANSIT,"I can help with order {order_id}: tracking, damaged items, refunds, payments, returns or cancellations. Pick one of the options below or tell me what happened.",none,-
+other,RETURNED_TO_SELLER,"I can help with order {order_id}: tracking, damaged items, refunds, payments, returns or cancellations. Pick one of the options below or tell me what happened.",none,-
+other,CANCELLED_BEFORE_SHIP,"I can help with order {order_id}: tracking, damaged items, refunds, payments, returns or cancellations. Pick one of the options below or tell me what happened.",none,-
