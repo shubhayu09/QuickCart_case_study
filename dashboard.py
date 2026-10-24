@@ -194,7 +194,7 @@ with tabs[0]:
         ui.chart_card(ch.waterfall([("Order Value", gmv, "total"),
                                     ("Policy-Compliant Refunds", -(refunds - leak), "delta", MUTED_MARK),
                                     ("Policy Leakage", -leak, "delta", HIGHLIGHT),
-                                    ("Retained Revenue", gmv - refunds, "total")], height=340),
+                                    ("Retained Revenue", gmv - refunds, "total")], height=340, wrap_labels=True),
                       "Order Value to Retained Revenue", "Refunds consume a large share of order value; coral is leakage")
     with c2:
         d = tickets.groupby("issue_category")["refund_amount"].sum().sort_values(ascending=False).reset_index()
@@ -202,11 +202,21 @@ with tabs[0]:
                               hover="%{y}<br>Refunds ₹%{x:,.0f}<extra></extra>", height=340),
                       "Refunds by Issue Type", "Which complaints cost the most")
 
-    with ui.card("Customer Ticket Journey", "Delivery status → customer complaint → support resolution. "
-                                            "Hover a band to see ticket counts"):
-        ui.chart(ch.sankey(tickets.assign(delivery_status=tickets["delivery_status"].map(STATUS_LABEL)),
-                           ["delivery_status", "issue_category", "resolution_status"],
-                           stage_colors=[{STATUS_LABEL[k]: v for k, v in STATUS_COLOR.items()}, {}, {}], height=460))
+    with ui.card("Order Value Breakdown", "Select a dimension to see how total order value splits across it"):
+        breakdown_dims = {"customer_city": "City", "product_category": "Product Category",
+                          "courier_partner": "Courier Partner", "payment_method": "Payment Method"}
+        dim = st.segmented_control("Break down by", list(breakdown_dims), default="customer_city",
+                                   format_func=breakdown_dims.get, key="gmv_dim",
+                                   label_visibility="collapsed") or "customer_city"
+        d = (orders.groupby(dim).agg(gmv=("order_amount", "sum"), n=("order_id", "count"))
+             .sort_values("gmv", ascending=False).reset_index())
+        d["share"] = d["gmv"] / d["gmv"].sum()
+        # keep each entity's colour consistent with the rest of the dashboard
+        palette = {"product_category": CATEGORY_COLOR, "courier_partner": COURIER_COLOR}.get(dim)
+        colors = [palette.get(v, SERIES[0]) for v in d[dim]] if palette else SERIES[0]
+        ui.chart(ch.hbar(d, dim, "gmv", color=colors,
+                         text=[f"{inr(g)} · {s:.0%} · {num(k)} orders" for g, s, k in zip(d["gmv"], d["share"], d["n"])],
+                         hover="%{y}<br>Order value ₹%{x:,.0f}<extra></extra>"))
 
     m = orders.groupby("order_month")["order_amount"].sum()
     r = tickets.groupby("order_month")["refund_amount"].sum().reindex(m.index).fillna(0)
